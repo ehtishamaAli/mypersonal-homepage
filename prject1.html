@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instant Math Quiz</title>
+    <style>
+        body{
+            background:rgb(186, 230, 248);
+            color: rgb(88, 75, 75);
+            font-size: larger;
+        }
+        .heading{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 60vh;
+            margin-bottom: -20vh;
+    
+        }
+        .div1{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        button{
+margin-left: 15px;
+background: rgba(128, 116, 116, 0.815);
+color: rgb(255, 255, 255);
+
+        }
+        select{
+            background: rgb(235, 243, 247);
+            color: rgb(88, 75, 75);
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="heading">Instant Math Quiz</h1>
+    <div class="div1">
+    <label for="operation">Choose an arithmetic operation:</label>
+    <select id="operation">
+        <option value="+">Addition (+)</option>
+        <option value="-">Subtraction (-)</option>
+        <option value="*">Multiplication (×)</option>
+        <option value="÷">Division (÷)</option>
+    </select>
+    <button onclick="startQuiz()">Start Quiz</button>
+</div>
+    <script>
+        function generateQuestion(operation) {
+            var num1 = Math.floor(Math.random() * 20) + 1;
+            var num2 = Math.floor(Math.random() * 20) + 1;
+            var question, answer;
+            if (operation === '+') {
+                question = `${num1} + ${num2} =`;
+                answer = num1 + num2;
+            } else if (operation === '-') {
+                question = `${num1} - ${num2} =`;
+                answer = num1 - num2;
+            } else if (operation === '*') {
+                question = `${num1} * ${num2} =`;
+                answer = num1 * num2;
+            } else if (operation === '÷') {
+                num1 = Math.floor(Math.random() * 10) + 1;
+                num2 = Math.floor(Math.random() * 10) + 1;
+                question = `${num1*num2} ÷ ${num2} =`;
+                answer = num1;
+            }
+            return { question: question, answer: answer };
+        }
+
+        function startQuiz() {
+            var operation = document.getElementById("operation").value;
+            var correctAnswers = 0;
+            var totalQuestions = 0;
+
+            while (true) {
+                var { question, answer } = generateQuestion(operation);
+                var userAnswer = prompt(question);
+                if (userAnswer === null) {
+                    break;
+                }
+                userAnswer = parseInt(userAnswer);
+                totalQuestions++;
+                if (userAnswer === answer) {
+                    alert("Correct!");
+                    correctAnswers++;
+                } else {
+                    alert("Incorrect!");
+                }
+                var nextQuestion = prompt("Do you want to continue? (yes/no)");
+                if (nextQuestion.toLowerCase() !== 'yes') {
+                    break;
+                }
+            }
+
+            if (totalQuestions === 0) {
+                alert("You didn't attempt any questions.");
+            } else {
+                var percentageScore = (correctAnswers / totalQuestions) * 100;
+                alert(`You got ${correctAnswers} out of ${totalQuestions} questions correct.\nYour score: ${percentageScore.toFixed(2)}%`);
+            }
+        }
+    </script>
+</body>
+</html>
